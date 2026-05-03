@@ -29,6 +29,7 @@ public class BookingController {
             booking.getId(),
             booking.getUser().getUserId(),
             booking.getMovie().getId(),
+            booking.getMovie().getTitle(),
             booking.getSeatCount(),
             booking.getTotalCost()
         );

@@ -37,6 +37,7 @@
             *ngFor="let seat of row; let colIndex = index"
             class="seat"
             [class.selected]="seat"
+            [class.disabled]="isSeatDisabled(rowIndex, colIndex)"
             (click)="toggleSeat(rowIndex, colIndex)"
           >{{ colIndex + 1 }}</div>
         </div>

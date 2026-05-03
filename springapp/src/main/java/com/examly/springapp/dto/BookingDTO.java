@@ -4,16 +4,18 @@ public class BookingDTO {
     private Long id;
     private int userId;
     private Long movieId;
+    private String movieTitle;
     private int seatCount;
     private double totalCost;
 
     public BookingDTO() {
     }
 
-    public BookingDTO(Long id, int userId, Long movieId, int seatCount, double totalCost) {
+    public BookingDTO(Long id, int userId, Long movieId, String movieTitle, int seatCount, double totalCost) {
         this.id = id;
         this.userId = userId;
         this.movieId = movieId;
+        this.movieTitle = movieTitle;
         this.seatCount = seatCount;
         this.totalCost = totalCost;
     }
@@ -41,6 +43,14 @@ public class BookingDTO {
 
     public void setMovieId(Long movieId) {
         this.movieId = movieId;
+    }
+
+    public String getMovieTitle() {
+        return movieTitle;
+    }
+
+    public void setMovieTitle(String movieTitle) {
+        this.movieTitle = movieTitle;
     }
 
     public int getSeatCount() {

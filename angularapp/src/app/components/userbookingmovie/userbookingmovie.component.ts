@@ -53,13 +53,30 @@ export class UserbookingmovieComponent implements OnInit {
     );
   }
 
+  // initializeSeatGrid(): void {
+  //   const totalSeats = this.movie?.totalSeats || 50;
+  //   const cols = 10;
+  //   const rows = Math.ceil(totalSeats / cols);
+  //   this.seatGrid = Array.from({ length: rows }, (_, rowIndex) => {
+  //     const seatsInRow = rowIndex === rows - 1 ? totalSeats - cols * (rows - 1) : cols;
+  //     return Array.from({ length: seatsInRow }, () => false);
+  //   });
+  // }
   initializeSeatGrid(): void {
-    const rows = 5;
-    const cols = 10;
-    this.seatGrid = Array.from({ length: rows }, () =>
-      Array.from({ length: cols }, () => false)
-    );
+  const totalSeats = this.movie?.totalSeats ?? 50;
+  const seatsPerRow = 10;
+
+  const rows: boolean[][] = [];
+  let remainingSeats = totalSeats;
+
+  while (remainingSeats > 0) {
+    const rowSize = Math.min(seatsPerRow, remainingSeats);
+    rows.push(Array.from({ length: rowSize }, () => false));
+    remainingSeats -= rowSize;
   }
+
+  this.seatGrid = rows;
+}
 
   incrementSeats(): void {
     if (this.selectedSeats < this.maxSeats) {
@@ -83,11 +100,15 @@ export class UserbookingmovieComponent implements OnInit {
 
   toggleSeat(row: number, col: number): void {
     const currentSelectedSeats = this.countSelectedSeats();
-    if (!this.seatGrid[row][col] && currentSelectedSeats < this.selectedSeats) {
-      this.seatGrid[row][col] = true;
-    } else if (this.seatGrid[row][col]) {
-      this.seatGrid[row][col] = false;
+    const seatSelected = this.seatGrid[row][col];
+    if (!seatSelected && currentSelectedSeats >= this.selectedSeats) {
+      return;
     }
+    this.seatGrid[row][col] = !seatSelected;
+  }
+
+  isSeatDisabled(row: number, col: number): boolean {
+    return !this.seatGrid[row][col] && this.countSelectedSeats() >= this.selectedSeats;
   }
 
   countSelectedSeats(): number {
