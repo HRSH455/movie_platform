@@ -2,6 +2,11 @@
 
 A full-stack movie booking application with Angular front-end and Spring Boot back-end.
 
+## 🌐 Live Demo
+
+- **Frontend:** https://movie-platform-five.vercel.app/
+- **Backend:** https://movie-platform-backend-90ac.onrender.com
+
 ## ✅ Project Structure
 
 - `angularapp/` - Angular client
@@ -63,11 +68,17 @@ App runs at `http://localhost:4200`.
 - Spring Boot database config: `springapp/src/main/resources/application.properties`
 - Angular API base URL: check service files in `angularapp/src/app/services/` (e.g. `auth.service.ts`, `movie.service.ts`, `booking.service.ts`)
 
+
 ## 📌 Usage
 
 - Register user, or sign in as admin (credential seed may exist in `backup.sql` or data initializer)
 - Admin: add movies, view all bookings
 - User: search/list movies, create booking, view own bookings
+
+## 🌐 Live Deployment
+
+- Backend: https://movie-platform-backend-90ac.onrender.com
+- Frontend: https://movie-platform-five.vercel.app/
 
 ## 🧪 Tests
 
