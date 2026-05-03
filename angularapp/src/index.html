@@ -84,7 +84,10 @@
       status.classList.add('ready');
       setTimeout(function() {
         splash.classList.add('hidden');
-        document.body.style.overflow = '';
+        // Ensure scrolling is enabled
+        document.body.style.overflow = 'auto';
+        document.body.style.overflowX = 'hidden'; // Prevent horizontal scroll
+        document.documentElement.style.overflow = 'auto';
         setTimeout(function() { splash.style.display = 'none'; }, 650);
       }, 500);
     }
