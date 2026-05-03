@@ -32,7 +32,7 @@
 
       <div class="seat-grid">
         <div class="seat-row" *ngFor="let row of seatGrid; let rowIndex = index">
-          <span class="row-label">{{ String.fromCharCode(65 + rowIndex) }}</span>
+          <span class="row-label">{{ rowLabel(rowIndex) }}</span>
           <div
             *ngFor="let seat of row; let colIndex = index"
             class="seat"

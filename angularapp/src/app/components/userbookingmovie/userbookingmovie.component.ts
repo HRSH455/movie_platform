@@ -95,6 +95,10 @@ export class UserbookingmovieComponent implements OnInit {
       total + row.filter(seat => seat).length, 0);
   }
 
+  rowLabel(rowIndex: number): string {
+    return String.fromCharCode(65 + rowIndex);
+  }
+
   createBooking(): void {
     // Validation: Check if user is logged in
     if (!this.userId || this.userId <= 0) {
