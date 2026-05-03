@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CineBook — Your Cinema Experience</title>
+  <base href="/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* ===== WARM-UP SPLASH ===== */
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    body{background:#0a0a0b;font-family:'DM Sans',sans-serif;overflow:hidden;}
+    #cinebook-warmup{
+      position:fixed;inset:0;z-index:9999;
+      background:#0a0a0b;
+      display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+      transition:opacity .6s ease,transform .6s ease;
+    }
+    #cinebook-warmup.hidden{opacity:0;transform:scale(1.04);pointer-events:none;}
+    .wu-logo{
+      font-family:'Playfair Display',Georgia,serif;
+      font-size:clamp(2rem,6vw,3.2rem);font-weight:900;
+      color:#d4aa50;letter-spacing:-0.02em;
+    }
+    .wu-logo span{color:#f0ede6;}
+    .wu-tagline{color:#4a4845;font-size:.85rem;letter-spacing:.12em;text-transform:uppercase;margin-top:-18px;}
+    .wu-reel{display:flex;gap:10px;margin-top:8px;}
+    .wu-dot{
+      width:10px;height:10px;border-radius:50%;
+      background:#222228;
+      animation:wuPulse 1.4s ease-in-out infinite;
+    }
+    .wu-dot:nth-child(2){animation-delay:.2s;}
+    .wu-dot:nth-child(3){animation-delay:.4s;}
+    @keyframes wuPulse{
+      0%,100%{background:#222228;transform:scale(1);}
+      50%{background:#d4aa50;transform:scale(1.3);}
+    }
+    .wu-status{
+      font-size:.78rem;color:#4a4845;letter-spacing:.06em;
+      min-height:1.2em;transition:color .3s ease;
+    }
+    .wu-status.ready{color:#27ae60;}
+    /* Film strip decoration */
+    .wu-strip{
+      position:fixed;height:8px;left:0;right:0;
+      background:repeating-linear-gradient(90deg,rgba(255,255,255,0.04) 0px,rgba(255,255,255,0.04) 20px,transparent 20px,transparent 40px);
+    }
+    .wu-strip.top{top:0;}.wu-strip.bottom{bottom:0;}
+    /* Allow Angular app to be rendered (invisible until warmup hides) */
+    app-root{display:block;}
+  </style>
+</head>
+<body>
+
+<div id="cinebook-warmup">
+  <div class="wu-strip top"></div>
+  <div class="wu-logo">🎬 <span>Cine</span>Book</div>
+  <div class="wu-tagline">Your Cinema Experience</div>
+  <div class="wu-reel">
+    <div class="wu-dot"></div>
+    <div class="wu-dot"></div>
+    <div class="wu-dot"></div>
+  </div>
+  <div class="wu-status" id="wu-status">Waking up the server…</div>
+  <div class="wu-strip bottom"></div>
+</div>
+
+<app-root></app-root>
+
+<script>
+  (function() {
+    var splash = document.getElementById('cinebook-warmup');
+    var status = document.getElementById('wu-status');
+    var dismissed = false;
+
+    function dismiss() {
+      if (dismissed) return;
+      dismissed = true;
+      status.textContent = 'Ready!';
+      status.classList.add('ready');
+      setTimeout(function() {
+        splash.classList.add('hidden');
+        document.body.style.overflow = '';
+        setTimeout(function() { splash.style.display = 'none'; }, 650);
+      }, 500);
+    }
+
+    // Ping the backend health endpoint to warm it up
+    var BACKEND = 'https://movie-platform-backend-90ac.onrender.com/api/movie';
+
+    function pingBackend() {
+      status.textContent = 'Waking up the server…';
+      fetch(BACKEND, { method: 'GET', headers: { 'Accept': 'application/json' } })
+        .then(function(r) { if (r.ok || r.status === 401 || r.status === 403) dismiss(); else retry(); })
+        .catch(function() { retry(); });
+    }
+
+    var attempt = 0;
+    function retry() {
+      attempt++;
+      if (attempt >= 8) { dismiss(); return; } // give up after 8 tries
+      status.textContent = 'Still warming up… (attempt ' + (attempt+1) + ')';
+      setTimeout(pingBackend, 3000);
+    }
+
+    // Safety: always dismiss after 30s regardless
+    var safetyTimer = setTimeout(dismiss, 30000);
+
+    // Start pinging after a short delay (let Angular bootstrap in background)
+    setTimeout(pingBackend, 600);
+
+    // Also dismiss if Angular boots and makes its own API call successfully
+    window.__cinebookDismissWarmup = dismiss;
+  })();
+</script>
+</body>
+</html>

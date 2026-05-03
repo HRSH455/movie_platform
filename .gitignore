@@ -1,0 +1,98 @@
+# Angular
+/angularapp/node_modules/
+/angularapp/dist/
+/angularapp/build/
+/angularapp/.angular/
+/angularapp/.angular/cache/
+angularapp/npm-debug.log*
+angularapp/yarn-debug.log*
+angularapp/yarn-error.log*
+
+# Spring Boot / Maven
+/springapp/target/
+/springapp/.mvn/wrapper/maven-wrapper.jar
+/springapp/.mvn/wrapper/maven-wrapper.properties
+springapp/*.jar
+springapp/*.war
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+*.sublime-workspace
+*.sublime-project
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Environment and sensitive files
+.env
+.env.local
+.env.*.local
+application-local.properties
+jwt.key
+
+# OS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Dependencies
+node_modules/
+package-lock.json
+yarn.lock
+
+# Compiled files
+*.class
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# Build outputs
+out/
+build/
+dist/
+.gradle/
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# IDE Specific
+.vscode/*
+!.vscode/extensions.json
+!.vscode/launch.json
+!.vscode/settings.json
+.idea/*
+!.idea/codeStyles
+!.idea/runConfigurations
+*.iml
+
+# Miscellaneous
+.sass-cache/
+connect.lock
+libpeerconnection.log
+testem.log
+/coverage

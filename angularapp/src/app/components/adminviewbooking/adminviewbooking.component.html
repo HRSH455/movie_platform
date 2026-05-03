@@ -1,0 +1,65 @@
+<div class="admin-bookings-page fade-up">
+  <div class="page-header">
+    <h1>Booking Management</h1>
+    <p>All reservations across the platform</p>
+  </div>
+
+  <div class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="stats-row">
+    <div class="stat-card card">
+      <span class="stat-icon">🎟️</span>
+      <div>
+        <div class="stat-value">{{ bookings.length }}</div>
+        <div class="stat-label">Total Bookings</div>
+      </div>
+    </div>
+    <div class="stat-card card">
+      <span class="stat-icon">💰</span>
+      <div>
+        <div class="stat-value gold">₹{{ calculateTotalRevenue() | number:'1.0-0' }}</div>
+        <div class="stat-label">Total Revenue</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="table-controls">
+    <div class="sort-control">
+      <label>Sort by</label>
+      <select [(ngModel)]="selectedSortField" (change)="onSortFieldChange()">
+        <option *ngFor="let option of sortOptions" [value]="option.value">{{ option.label }}</option>
+      </select>
+    </div>
+    <button class="btn btn-ghost sort-dir-btn" (click)="toggleSortDirection()">
+      {{ sortDirection === 'asc' ? '▲ Ascending' : '▼ Descending' }}
+    </button>
+  </div>
+
+  <div class="empty-state" *ngIf="bookings.length === 0 && !errorMessage">
+    <div class="empty-icon">📋</div>
+    <h3>No bookings found</h3>
+  </div>
+
+  <div class="table-wrapper" *ngIf="bookings.length > 0">
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th>Booking ID</th>
+          <th>User</th>
+          <th>Movie</th>
+          <th>Seats</th>
+          <th>Total Cost</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let booking of bookings">
+          <td><span class="booking-id">#{{ booking.id }}</span></td>
+          <td>{{ booking.user?.username || 'N/A' }}</td>
+          <td>{{ booking.movie?.title || 'N/A' }}</td>
+          <td>{{ booking.seatCount }}</td>
+          <td><span class="cost-val">₹{{ booking.totalCost | number:'1.2-2' }}</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

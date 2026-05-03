@@ -1,0 +1,36 @@
+<div class="auth-page fade-up">
+  <div class="auth-card">
+    <div class="auth-header">
+      <div class="auth-logo">🎬</div>
+      <h1>Welcome Back</h1>
+      <p>Sign in to your CineBook account</p>
+    </div>
+
+    <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" ngModel required email #email="ngModel" placeholder="you@example.com">
+        <div class="error-msg" *ngIf="email.invalid && (email.dirty || email.touched)">
+          <span *ngIf="email.hasError('required')">Email is required.</span>
+          <span *ngIf="email.hasError('email')">Enter a valid email address.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" ngModel required #password="ngModel" placeholder="••••••••">
+        <div class="error-msg" *ngIf="password.invalid && (password.dirty || password.touched)">
+          Password is required.
+        </div>
+      </div>
+
+      <div class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <button type="submit" class="btn btn-gold submit-btn" [disabled]="loginForm.invalid">
+        Sign In
+      </button>
+
+      <p class="auth-footer-link">Don't have an account? <a routerLink="/register">Register here</a></p>
+    </form>
+  </div>
+</div>

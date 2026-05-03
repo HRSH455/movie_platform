@@ -1,0 +1,38 @@
+<div class="movies-page fade-up">
+  <div class="page-header-row">
+    <div>
+      <h1>Movie Management</h1>
+      <p>{{ movies.length }} movies in the system</p>
+    </div>
+    <button class="btn btn-gold" (click)="addNewMovie()">+ Add New Movie</button>
+  </div>
+
+  <div class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="movies-grid">
+    <div class="movie-card card" *ngFor="let movie of movies">
+      <div class="movie-poster-placeholder">
+        <span class="movie-initial">{{ movie.title.charAt(0) }}</span>
+        <div class="genre-badge">{{ movie.genre }}</div>
+      </div>
+      <div class="movie-body">
+        <h2 class="movie-title">{{ movie.title }}</h2>
+        <div class="movie-meta">
+          <span class="meta-item"><span class="meta-label">Duration</span>{{ movie.duration }} min</span>
+          <span class="meta-item"><span class="meta-label">Seats</span>{{ movie.totalSeats }}</span>
+        </div>
+        <div class="movie-price">₹{{ movie.price }}</div>
+        <div class="movie-actions">
+          <button class="btn btn-ghost" (click)="updateMovie(movie)">✏️ Edit</button>
+          <button class="btn btn-danger" (click)="deleteMovie(movie.id)">🗑 Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="movies.length === 0 && !errorMessage">
+    <div class="empty-icon">🎬</div>
+    <h3>No movies yet</h3>
+    <p>Add your first movie to get started.</p>
+  </div>
+</div>

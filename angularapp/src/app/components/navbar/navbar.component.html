@@ -1,0 +1,46 @@
+<nav class="navbar">
+  <div class="navbar-inner">
+    <a class="brand" routerLink="/">
+      <span class="brand-icon">🎬</span>
+      <span class="brand-name">CineBook</span>
+    </a>
+
+    <ul class="nav-links">
+      <ng-container *ngIf="!isLoggedIn">
+        <li><a class="nav-link" routerLink="/register">Register</a></li>
+        <li><a class="nav-link nav-link--primary" routerLink="/login">Sign In</a></li>
+      </ng-container>
+
+      <ng-container *ngIf="isLoggedIn">
+        <li><a class="nav-link" routerLink="/">Home</a></li>
+        <ng-container *ngIf="userRole === 'ADMIN'">
+          <app-admin-nav></app-admin-nav>
+        </ng-container>
+        <ng-container *ngIf="userRole === 'USER'">
+          <app-user-nav></app-user-nav>
+        </ng-container>
+        <li class="user-pill">
+          <span class="user-role-badge">{{ userRole }}</span>
+          <span class="user-name">{{ username }}</span>
+        </li>
+        <li>
+          <button class="btn-logout" (click)="showLogoutPopup = true">
+            Sign Out
+          </button>
+        </li>
+      </ng-container>
+    </ul>
+  </div>
+
+  <div class="logout-overlay" *ngIf="showLogoutPopup" (click)="showLogoutPopup = false">
+    <div class="logout-modal" (click)="$event.stopPropagation()">
+      <div class="logout-modal-icon">⏻</div>
+      <h3>Sign Out?</h3>
+      <p>You'll need to sign in again to access your bookings.</p>
+      <div class="logout-actions">
+        <button class="btn btn-ghost" (click)="showLogoutPopup = false">Cancel</button>
+        <button class="btn btn-gold" (click)="logout()">Yes, Sign Out</button>
+      </div>
+    </div>
+  </div>
+</nav>

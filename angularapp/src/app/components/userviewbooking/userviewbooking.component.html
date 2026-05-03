@@ -1,0 +1,41 @@
+<div class="bookings-page fade-up">
+  <div class="page-header">
+    <h1>My Bookings</h1>
+    <p>Your complete booking history</p>
+  </div>
+
+  <div class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+  <div class="empty-state" *ngIf="bookings.length === 0 && !errorMessage">
+    <div class="empty-icon">🎟️</div>
+    <h3>No bookings yet</h3>
+    <p>Head over to Movies to book your first show!</p>
+    <a class="btn btn-gold" routerLink="/user/view/Movies" style="margin-top:16px">Browse Movies</a>
+  </div>
+
+  <div class="bookings-list" *ngIf="bookings.length > 0">
+    <div class="booking-card card" *ngFor="let booking of bookings">
+      <div class="booking-accent"></div>
+      <div class="booking-body">
+        <div class="booking-movie">
+          <span class="movie-icon">🎬</span>
+          <span class="movie-name">{{ booking.movie?.title || 'N/A' }}</span>
+        </div>
+        <div class="booking-meta">
+          <div class="meta-pair">
+            <span class="meta-label">Booking ID</span>
+            <span class="meta-val">#{{ booking.id || 'N/A' }}</span>
+          </div>
+          <div class="meta-pair">
+            <span class="meta-label">Seats</span>
+            <span class="meta-val">{{ booking.seatCount || 'N/A' }}</span>
+          </div>
+          <div class="meta-pair">
+            <span class="meta-label">Total Paid</span>
+            <span class="meta-val gold">₹{{ booking.totalCost ? (booking.totalCost | number:'1.2-2') : 'N/A' }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

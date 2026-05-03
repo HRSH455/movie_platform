@@ -1,0 +1,73 @@
+<div class="booking-page fade-up" *ngIf="movie">
+  <div class="booking-layout">
+
+    <!-- Left: movie info -->
+    <div class="movie-info-panel">
+      <div class="movie-poster-large">
+        <span class="movie-initial-lg">{{ movie.title.charAt(0) }}</span>
+        <div class="genre-badge">{{ movie.genre }}</div>
+      </div>
+      <div class="movie-details-block">
+        <h1>{{ movie.title }}</h1>
+        <div class="detail-chips">
+          <span class="chip">⏱ {{ movie.duration }} min</span>
+          <span class="chip chip--gold">₹{{ movie.price }} / seat</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: seat selection -->
+    <div class="seat-panel">
+      <div class="seat-count-control">
+        <p class="section-label">How many seats?</p>
+        <div class="stepper">
+          <button class="stepper-btn" (click)="decrementSeats()" [disabled]="selectedSeats <= 1">−</button>
+          <span class="stepper-val">{{ selectedSeats }}</span>
+          <button class="stepper-btn" (click)="incrementSeats()" [disabled]="selectedSeats >= maxSeats">+</button>
+        </div>
+      </div>
+
+      <div class="screen-label">SCREEN</div>
+      <div class="screen-bar"></div>
+
+      <div class="seat-grid">
+        <div class="seat-row" *ngFor="let row of seatGrid; let rowIndex = index">
+          <span class="row-label">{{ String.fromCharCode(65 + rowIndex) }}</span>
+          <div
+            *ngFor="let seat of row; let colIndex = index"
+            class="seat"
+            [class.selected]="seat"
+            (click)="toggleSeat(rowIndex, colIndex)"
+          >{{ colIndex + 1 }}</div>
+        </div>
+      </div>
+
+      <div class="seat-legend">
+        <span class="legend-item"><span class="legend-dot available"></span>Available</span>
+        <span class="legend-item"><span class="legend-dot selected"></span>Selected</span>
+      </div>
+
+      <div class="booking-summary">
+        <div class="summary-row">
+          <span>Seats Selected</span>
+          <span class="summary-val">{{ countSelectedSeats() }} / {{ selectedSeats }}</span>
+        </div>
+        <div class="summary-row total">
+          <span>Total</span>
+          <span class="summary-val gold">₹{{ totalCost }}</span>
+        </div>
+      </div>
+
+      <div class="error-msg" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+      <button
+        class="btn btn-gold confirm-btn"
+        (click)="createBooking()"
+        [disabled]="countSelectedSeats() !== selectedSeats"
+      >
+        Confirm Booking
+      </button>
+    </div>
+  </div>
+</div>
+<div class="error-msg booking-global-error" *ngIf="!movie && errorMessage">{{ errorMessage }}</div>
